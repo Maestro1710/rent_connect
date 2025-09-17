@@ -78,52 +78,146 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      Text('TÀI KHOẢN', style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(
+                        'TÀI KHOẢN',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 20),
                       TextFormField(
                         controller: _emailController,
-                        decoration: const InputDecoration(labelText: 'Email'),
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          alignLabelWithHint: true,
+                          prefixIcon: const Icon(
+                            Icons.email,
+                            color: Colors.deepPurple,
+                          ),
+                        ),
                         validator: (value) => Validators.validateEmail(value),
                       ),
+                      const SizedBox(height: 20),
                       TextFormField(
                         controller: _passwordController,
-                        decoration: const InputDecoration(labelText: 'Mật khẩu'),
-                        validator: (value) => Validators.validatePassword(value),
+                        decoration: InputDecoration(
+                          labelText: 'Mật khẩu',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          alignLabelWithHint: true,
+                          prefixIcon: Icon(
+                            Icons.password,
+                            color: Colors.deepPurple,
+                          ),
+                        ),
+                        obscureText: true,
+                        validator: (value) =>
+                            Validators.validatePassword(value),
                       ),
+                      const SizedBox(height: 20),
                       TextFormField(
                         controller: _confirmPasswordController,
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                           labelText: 'Nhập lại mật khẩu',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          alignLabelWithHint: true,
+                          prefixIcon: Icon(
+                            Icons.password,
+                            color: Colors.deepPurple,
+                          ),
                         ),
-                        validator: (value) => Validators.validateConfirmPassword(
-                          value,
-                          _passwordController.text,
-                        ),
+                        validator: (value) =>
+                            Validators.validateConfirmPassword(
+                              value,
+                              _passwordController.text,
+                            ),
                       ),
-                      SizedBox(height: 20),
-                      Text('THÔNG TIN', style: TextStyle(fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 20),
+                      Text(
+                        'THÔNG TIN',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 20),
                       TextFormField(
                         controller: _nameController,
-                        decoration: const InputDecoration(labelText: 'Họ tên'),
+                        decoration:  InputDecoration(labelText: 'Họ tên',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          alignLabelWithHint: true,
+                          prefixIcon: Icon(
+                            Icons.supervised_user_circle,
+                            color: Colors.deepPurple,
+                          ),),
                         validator: (value) => Validators.validateName(value),
                       ),
+                      const SizedBox(height: 20),
                       TextFormField(
                         controller: _phoneController,
-                        decoration: const InputDecoration(labelText: 'Số điện thoại'),
+                        decoration: InputDecoration(
+                          labelText: 'Số điện thoại',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          alignLabelWithHint: true,
+                          prefixIcon: Icon(
+                            Icons.phone,
+                            color: Colors.deepPurple,
+                          ),
+                        ),
                         validator: (value) => Validators.validatePhone(value),
                       ),
+                      const SizedBox(height: 20),
                       TextFormField(
                         controller: _communeController,
-                        decoration: const InputDecoration(labelText: 'Xã/Phường'),
+                        decoration: InputDecoration(
+                          labelText: 'Xã/Phường',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          alignLabelWithHint: true,
+                          prefixIcon: Icon(
+                            Icons.location_on,
+                            color: Colors.deepPurple,
+                          ),
+                        ),
                         validator: (value) => Validators.validateCommune(value),
                       ),
+                      const SizedBox(height: 20),
                       TextFormField(
                         controller: _districtController,
-                        decoration: const InputDecoration(labelText: 'Quận/Huyện'),
-                        validator: (value) => Validators.validateDistrict(value),
+                        decoration: InputDecoration(
+                          labelText: 'Quận/Huyện',
+                          border: OutlineInputBorder(
+                            borderRadius:     BorderRadius.circular(12),
+                          ),
+                          alignLabelWithHint: true,
+                          prefixIcon: const Icon(
+                            Icons.location_on,
+                            color: Colors.deepPurple,
+                          ),
+                        ),
+                        validator: (value) =>
+                            Validators.validateDistrict(value),
                       ),
+                      const SizedBox(height: 20),
                       TextFormField(
                         controller: _cityController,
-                        decoration: const InputDecoration(labelText: 'Thành phố'),
+                        decoration: InputDecoration(
+                          labelText: 'Thành phố',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          alignLabelWithHint: true,
+                          prefixIcon: Icon(
+                            Icons.location_on,
+                            color: Colors.deepPurple,
+                          ),
+                        ),
                         validator: (value) => Validators.validateCity(value),
                       ),
 
@@ -132,35 +226,42 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         'VAI TRÒ',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-
+                      const SizedBox(height: 20),
                       Row(
                         children: [
-                        Expanded(
-                          child: RadioListTile(
-                            dense: true,
-                            contentPadding: EdgeInsets.zero,
-                            title: const Text('Người thuê' , style: TextStyle(fontSize: 15),),
-                            value: 'tenant',
-                            groupValue: roleState,
-                            onChanged: (value) {
-                              ref.read(roleProvider.notifier).state = value!;
-                            },
+                          Expanded(
+                            child: RadioListTile(
+                              dense: true,
+                              contentPadding: EdgeInsets.zero,
+                              title: const Text(
+                                'Người thuê',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              value: 'tenant',
+                              groupValue: roleState,
+                              onChanged: (value) {
+                                ref.read(roleProvider.notifier).state = value!;
+                              },
+                            ),
                           ),
-                        ),
 
-                        Expanded(
-                          child: RadioListTile(
-                            dense: true,
-                            contentPadding: EdgeInsets.zero,
-                            title: const Text('Người cho thuê', style: TextStyle(fontSize: 15),),
-                            value: 'landlord',
-                            groupValue: roleState,
-                            onChanged: (value) {
-                              ref.read(roleProvider.notifier).state = value!;
-                            },
+                          Expanded(
+                            child: RadioListTile(
+                              dense: true,
+                              contentPadding: EdgeInsets.zero,
+                              title: const Text(
+                                'Người cho thuê',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              value: 'landlord',
+                              groupValue: roleState,
+                              onChanged: (value) {
+                                ref.read(roleProvider.notifier).state = value!;
+                              },
+                            ),
                           ),
-                        ),
-                      ],),
+                        ],
+                      ),
 
                       const SizedBox(height: 30),
                       ElevatedButton(
