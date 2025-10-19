@@ -1,0 +1,13 @@
+[33m48aaa88[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m conflict
+[33mefe43f0[m[33m ([m[1;31morigin/register[m[33m, [m[1;32mregister[m[33m)[m shared references
+[33m5b23aa5[m add user to sharedPreferences
+[33ma879d2d[m add SignIn UI and Logic
+[33m4c7c851[m sua loi toJson id:userId -> user_id:userId
+[33md02b21f[m tach logic nghiep vu ra file service
+[33mb554c31[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #3 from Maestro1710/revert-2-register
+[33m3b84f04[m[33m ([m[1;31morigin/revert-2-register[m[33m)[m Revert "Register"
+[33me5594bb[m Merge pull request #2 from Maestro1710/register
+[33m938fac5[m updated UI
+[33m534e10e[m finished register and storaged userdata in supabase
+[33m8c65501[m add user_model and repository
+[33mbcac429[m init project + supabase setup
