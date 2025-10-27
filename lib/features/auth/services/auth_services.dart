@@ -39,11 +39,15 @@ class AuthServices {
 
   Future<UserModel> signInService (String email, String password) async {
     try {
-      final response = await _repository.signIn(email, password);
+      print("tk:$email mk:$password");
+      final response = await _repository.signIn("conghoan1182004@gmail.com", "123456");
+      print(response.toString());
+
+      print(response.user.toString());
       final user = response.user;
       //response return null
       if(user == null) {
-        throw Exception("Đăng nhập thất bại");
+        throw Exception("Đăng nhập 1 thất bại");
       }
       //if user not in database
       final userData = await _repository.getUser(user.id);
@@ -55,7 +59,8 @@ class AuthServices {
       //Supabase auth error
       throw Exception("Lỗi supabase auth: ${e.message}");
     } catch (e) {
-      throw Exception("Đăng nhập thất bại");
+      print(e.toString());
+      throw Exception("Đăng nhập thất 12121 bại ${e.toString()}");
     }
   }
 }

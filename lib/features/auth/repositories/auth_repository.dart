@@ -7,7 +7,7 @@ class AuthRepository {
   //Create new user
   Future<UserModel> createUser(UserModel user) async {
     final response = await supabase
-        .from('tbl_user')
+        .from('users')
         .insert(user.toJson())
         .select()
         .single();
@@ -17,9 +17,9 @@ class AuthRepository {
   //Get user by id
   Future<UserModel?> getUser(String id) async {
     final response = await supabase
-        .from('tbl_user')
+        .from('users')
         .select()
-        .eq('user_id', id)
+        .eq('id', id)
         .maybeSingle();
     //return null if user not found
     return response != null ? UserModel.fromJson(response) : null;

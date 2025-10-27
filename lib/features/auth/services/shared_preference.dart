@@ -11,6 +11,8 @@ class SharedPreferenceHelper {
     final jsonStr = jsonEncode(user.toJson()) ;
     await prefs.setString(_userKey, jsonStr);
   }
+
+
   //lay user o sharedPreferences
   static Future<UserModel?> getUser() async {
     final prefs = await SharedPreferences.getInstance();

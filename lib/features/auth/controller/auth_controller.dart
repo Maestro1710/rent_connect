@@ -37,6 +37,7 @@ class AuthController extends StateNotifier<AsyncValue<UserModel?>> {
     }
   }
 
+
   Future<void> signIn({required String email, required String password}) async {
     state = const AsyncLoading();
     try {
