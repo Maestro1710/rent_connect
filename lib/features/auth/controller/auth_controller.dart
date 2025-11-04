@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rent_connect/features/auth/model/user_model.dart';
 import 'package:rent_connect/features/auth/repositories/auth_repository.dart';
 import 'package:rent_connect/features/auth/services/auth_services.dart';
-
+import 'package:rent_connect/features/auth/services/shared_preference.dart';
 
 class AuthController extends StateNotifier<AsyncValue<UserModel?>> {
   final AuthServices _authService;
@@ -31,6 +31,17 @@ class AuthController extends StateNotifier<AsyncValue<UserModel?>> {
         city: city,
         role: role,
       );
+      state = AsyncData(user);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
+  }
+
+  Future<void> signIn({required String email, required String password}) async {
+    state = const AsyncLoading();
+    try {
+      final user = await _authService.signInService(email, password);
+      await SharedPreferenceHelper.saveUser(user);
       state = AsyncData(user);
     } catch (e, st) {
       state = AsyncError(e, st);
