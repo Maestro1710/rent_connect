@@ -1,24 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rent_connect/features/auth/model/user_model.dart';
 import 'package:rent_connect/features/auth/repositories/auth_repository.dart';
+import 'package:rent_connect/features/auth/services/auth_services.dart';
 
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepository();
-});
-
-final roleProvider = StateProvider<String>((ref) {
-  return 'tenant';
-});
-
-final authControllerProvider =
-    StateNotifierProvider<AuthController, AsyncValue<UserModel?>>((ref) {
-      return AuthController(ref.read(authRepositoryProvider));
-    });
 
 class AuthController extends StateNotifier<AsyncValue<UserModel?>> {
-  final AuthRepository _repository;
+  final AuthServices _authService;
 
-  AuthController(this._repository) : super(const AsyncData(null));
+  AuthController(this._authService) : super(const AsyncData(null));
 
   Future<void> signUp({
     required String email,
@@ -32,7 +21,7 @@ class AuthController extends StateNotifier<AsyncValue<UserModel?>> {
   }) async {
     state = const AsyncLoading();
     try {
-      final user = await _repository.signUp(
+      final user = await _authService.signUpService(
         email: email,
         password: password,
         name: name,

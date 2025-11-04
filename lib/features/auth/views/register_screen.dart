@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rent_connect/features/auth/controller/auth_controller.dart';
 import 'package:rent_connect/utils/validators.dart';
+
+import '../../../core/providers/auth_provider.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -25,7 +25,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _districtController = TextEditingController();
   final _cityController = TextEditingController();
 
-  String _role = 'tenant';
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final authState = ref.watch(authControllerProvider);
     final roleState = ref.watch(roleProvider);
     //dang ky
-    void _register() {
+    void register() {
       if (_formkey.currentState!.validate()) {
         final role = ref.read(roleProvider);
 
@@ -58,7 +57,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Đăng ký thất bại: ${next.error}')),
         );
-      } else if (next is AsyncData && next != null) {
+      } else if (next is AsyncData) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Chào mừng ${next.value!.name}!')),
         );
@@ -77,10 +76,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(16),
                   child: Column(
+
                     children: [
-                      Text(
-                        'TÀI KHOẢN',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'TÀI KHOẢN',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
@@ -92,7 +95,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ),
                           alignLabelWithHint: true,
                           prefixIcon: const Icon(
-                            Icons.email,
+                            Icons.email_outlined,
                             color: Colors.deepPurple,
                           ),
                         ),
@@ -108,7 +111,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ),
                           alignLabelWithHint: true,
                           prefixIcon: Icon(
-                            Icons.password,
+                            Icons.lock_outline,
                             color: Colors.deepPurple,
                           ),
                         ),
@@ -126,7 +129,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ),
                           alignLabelWithHint: true,
                           prefixIcon: Icon(
-                            Icons.password,
+                            Icons.lock_outline,
                             color: Colors.deepPurple,
                           ),
                         ),
@@ -137,9 +140,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             ),
                       ),
                       const SizedBox(height: 20),
-                      Text(
-                        'THÔNG TIN',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'THÔNG TIN',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
@@ -150,7 +156,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ),
                           alignLabelWithHint: true,
                           prefixIcon: Icon(
-                            Icons.supervised_user_circle,
+                            Icons.person_outline,
                             color: Colors.deepPurple,
                           ),),
                         validator: (value) => Validators.validateName(value),
@@ -165,7 +171,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ),
                           alignLabelWithHint: true,
                           prefixIcon: Icon(
-                            Icons.phone,
+                            Icons.phone_outlined,
                             color: Colors.deepPurple,
                           ),
                         ),
@@ -181,7 +187,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ),
                           alignLabelWithHint: true,
                           prefixIcon: Icon(
-                            Icons.location_on,
+                            Icons.location_on_outlined,
                             color: Colors.deepPurple,
                           ),
                         ),
@@ -197,7 +203,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ),
                           alignLabelWithHint: true,
                           prefixIcon: const Icon(
-                            Icons.location_on,
+                            Icons.location_on_outlined,
                             color: Colors.deepPurple,
                           ),
                         ),
@@ -214,7 +220,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ),
                           alignLabelWithHint: true,
                           prefixIcon: Icon(
-                            Icons.location_on,
+                            Icons.location_on_outlined,
                             color: Colors.deepPurple,
                           ),
                         ),
@@ -222,9 +228,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
 
                       const SizedBox(height: 20),
-                      const Text(
-                        'VAI TRÒ',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: const Text(
+                          'VAI TRÒ',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                       const SizedBox(height: 20),
                       Row(
@@ -269,7 +278,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           backgroundColor: Colors.green,
                           foregroundColor: Colors.white,
                         ),
-                        onPressed: authState is AsyncLoading ? null : _register,
+                        onPressed: authState is AsyncLoading ? null : register,
                         child: authState is AsyncLoading
                             ? const CircularProgressIndicator()
                             : const Text('Đăng ký'),
