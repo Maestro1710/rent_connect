@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rent_connect/core/providers/auth_provider.dart';
 import 'package:rent_connect/core/widgets/logo_widget.dart';
+import 'package:rent_connect/features/auth/views/bottom_nav_screen.dart';
 import 'package:rent_connect/features/auth/views/home/home_screen.dart';
 import 'package:rent_connect/utils/validators.dart';
 
@@ -61,7 +62,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           if (user != null) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => HomeScreen()),
+              MaterialPageRoute(builder: (_) => BottomNavScreen()),
             );
           }
         });
