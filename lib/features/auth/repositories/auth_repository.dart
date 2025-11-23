@@ -3,7 +3,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../model/user_model.dart';
 
 class AuthRepository {
-  final supabase = Supabase.instance.client;
+  final SupabaseClient supabase;
+  AuthRepository(this.supabase);
   //Create new user
   Future<UserModel> createUser(UserModel user) async {
     final response = await supabase

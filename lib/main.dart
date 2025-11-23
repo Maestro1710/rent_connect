@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rent_connect/features/auth/views/home/home_screen.dart';
 import 'package:rent_connect/features/auth/views/login_screen.dart';
 import 'package:rent_connect/features/auth/views/register_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

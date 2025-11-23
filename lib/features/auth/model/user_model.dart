@@ -6,6 +6,7 @@ class UserModel {
   final String? district;
   final String? city;
   final String role;
+  final String? avatar;
 
   UserModel({
     required this.userId,
@@ -15,6 +16,7 @@ class UserModel {
     required this.district,
     required this.city,
     required this.role,
+    this.avatar,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -25,6 +27,7 @@ class UserModel {
       commune: json['commune'] as String,
       district: json['district'] as String,
       city: json['city'] as String,
+      avatar: json['avatar'] as String?,
       role: json['role'] as String,
     );
   }
@@ -37,7 +40,30 @@ class UserModel {
       'commune': commune,
       'district': district,
       'city': city,
+      'avatar': avatar,
       'role': role,
     };
+  }
+
+  UserModel copyWith({
+    String? userId,
+    String? name,
+    String? phone,
+    String? commune,
+    String? district,
+    String? city,
+    String? role,
+    String? avatar,
+  }) {
+    return UserModel(
+      userId: userId ?? this.userId,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      commune: commune ?? this.commune,
+      district: district ?? this.district,
+      city: city ?? this.city,
+      role: role ?? this.role,
+      avatar: avatar ?? this.avatar,
+    );
   }
 }
