@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rent_connect/app_router.dart';
 import 'package:rent_connect/core/providers/bottom_nav_provider.dart';
+import 'package:rent_connect/core/providers/user_provider.dart';
 import 'package:rent_connect/features/auth/views/chat_screen.dart';
 import 'package:rent_connect/features/auth/views/home/home_screen.dart';
 import 'package:rent_connect/features/auth/views/manage_post_screen.dart';
@@ -13,6 +16,7 @@ class BottomNavScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(bottomNavProvider);
+    final user = ref.watch(userProvider);
     final screens = [
       HomeScreen(),
       ManagePostScreen(),
@@ -27,7 +31,11 @@ class BottomNavScreen extends ConsumerWidget {
         elevation: 5,
         shape: const CircleBorder(),
         onPressed: () {
-          //dieu huong den trang them bai dang
+          if(user != null) {
+            context.push(AppRouter.addPost);
+          } else {
+            context.push(AppRouter.login);
+          }
         },
         child: const Icon(Icons.add, size: 30),
       ),
@@ -46,6 +54,7 @@ class BottomNavScreen extends ConsumerWidget {
               index: 0,
               currentIndex: currentIndex,
               ref: ref,
+              user: user,
             ),
 
             _navItem(
@@ -54,6 +63,7 @@ class BottomNavScreen extends ConsumerWidget {
               index: 1,
               currentIndex: currentIndex,
               ref: ref,
+              user: user,
             ),
 
             const SizedBox(width: 40), // chỗ trống cho FAB
@@ -65,6 +75,7 @@ class BottomNavScreen extends ConsumerWidget {
               index: 3,
               currentIndex: currentIndex,
               ref: ref,
+              user: user,
             ),
 
             _navItem(
@@ -73,6 +84,7 @@ class BottomNavScreen extends ConsumerWidget {
               index: 4,
               currentIndex: currentIndex,
               ref: ref,
+              user: user,
             ),
           ],
         )),
@@ -89,11 +101,19 @@ class BottomNavScreen extends ConsumerWidget {
     required int index,
     required int currentIndex,
     required WidgetRef ref,
+    required user,
   }) {
     final selected = currentIndex == index;
+    final protectedIndex = [2,3,4,5];
 
     return GestureDetector(
-      onTap: () => ref.read(bottomNavProvider.notifier).state = index,
+      onTap: () {
+        if(protectedIndex.contains(index) && user == null) {
+          ref.context.push(AppRouter.login);
+          return;
+        }
+        ref.read(bottomNavProvider.notifier).state = index;
+      },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
