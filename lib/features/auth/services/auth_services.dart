@@ -55,7 +55,8 @@ class AuthServices {
       //Supabase auth error
       throw Exception("Lỗi supabase auth: ${e.message}");
     } catch (e) {
-      throw Exception("Đăng nhập thất bại");
+      print(e.toString());
+      throw Exception(" thất bại");
     }
   }
 }

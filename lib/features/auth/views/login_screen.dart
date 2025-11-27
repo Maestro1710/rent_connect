@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rent_connect/core/providers/auth_provider.dart';
 import 'package:rent_connect/core/widgets/logo_widget.dart';
-import 'package:rent_connect/features/auth/views/landlord_home_screen.dart';
-import 'package:rent_connect/features/auth/views/tenant_home_screen.dart';
+import 'package:rent_connect/features/auth/views/bottom_nav_screen.dart';
+import 'package:rent_connect/features/auth/views/home/home_screen.dart';
 import 'package:rent_connect/utils/validators.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -59,15 +59,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
         );
         Future.microtask(() {
-          if (user.role == 'tenant') {
+          if (user != null) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => TenantHomeScreen()),
-            );
-          } else if (user.role == 'landlord') {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => LandlordHomeScreen()),
+              MaterialPageRoute(builder: (_) => BottomNavScreen()),
             );
           }
         });

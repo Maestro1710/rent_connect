@@ -42,7 +42,6 @@ class AuthController extends StateNotifier<AsyncValue<UserModel?>> {
     try {
       final user = await _authService.signInService(email, password);
       await SharedPreferenceHelper.saveUser(user);
-      print(SharedPreferenceHelper.saveUser(user));
       state = AsyncData(user);
     } catch (e, st) {
       state = AsyncError(e, st);
