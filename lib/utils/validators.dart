@@ -73,10 +73,20 @@ class Validators {
     }
     return null;
   }
-
+//Post validator
   static String? validatePost(String? value, String message) {
-    if(value==null||value.isEmpty) {
+    if(value==null||value.trim().isEmpty) {
       return message;
+    }
+    return null;
+  }
+
+  static String? validateNumber(String? value, String message) {
+    if (value == null || value.trim().isEmpty) {
+      return message;
+    }
+    if (double.tryParse(value.trim()) == null) {
+      return "Phải là số hợp lệ";
     }
     return null;
   }

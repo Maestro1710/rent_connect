@@ -38,7 +38,7 @@ class PostRepository {
   }) async {
     try {
       await supabase.from('tbl_post').insert({
-        'userId':userId,
+        'user_id':userId,
         'title': title,
         'description': description,
         'area': area,

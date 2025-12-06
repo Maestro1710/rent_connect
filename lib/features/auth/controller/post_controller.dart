@@ -19,14 +19,20 @@ class PostState {
       error: error,
     );
   }
+
+
 }
 
 class PostController extends StateNotifier<PostState> {
   final PostService service;
   PostController(this.service) : super(PostState());
 
+  void reset() {
+    state = PostState();
+  }
+
   Future<void> createPost({
-    required String userId,
+     String? userId,
     required String title,
     required String description,
     required double area,
