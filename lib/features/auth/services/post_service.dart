@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:rent_connect/features/auth/model/post_model.dart';
 import 'package:rent_connect/features/auth/repositories/post_repository.dart';
 
 class PostService {
@@ -39,5 +40,10 @@ class PostService {
       city: city,
       image: imgUrls,
     );
+  }
+
+  Future<List<PostModel>> getAllPostService() async {
+    final posts = await repository.getAllPost();
+    return posts;
   }
 }

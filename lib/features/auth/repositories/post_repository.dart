@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rent_connect/features/auth/model/post_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PostRepository {
@@ -38,7 +39,7 @@ class PostRepository {
   }) async {
     try {
       await supabase.from('tbl_post').insert({
-        'user_id':userId,
+        'user_id': userId,
         'title': title,
         'description': description,
         'area': area,
@@ -52,6 +53,21 @@ class PostRepository {
       });
     } catch (e) {
       throw Exception('upload post that bai: ${e.toString()}');
+    }
+  }
+
+  Future<List<PostModel>> getAllPost() async {
+    try {
+      final response = await supabase
+          .from('tbl_post')
+          .select()
+          .order('created_at', ascending: false);
+      final List<PostModel> posts = response
+          .map<PostModel>((json) => PostModel.fromJson(json))
+          .toList();
+      return posts;
+    } catch (e) {
+      throw Exception('lay toan bo bai dang that bai: ${e.toString()}');
     }
   }
 }
