@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rent_connect/features/auth/model/post_details_model.dart';
 import 'package:rent_connect/features/auth/model/post_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -68,6 +69,20 @@ class PostRepository {
       return posts;
     } catch (e) {
       throw Exception('lay toan bo bai dang that bai: ${e.toString()}');
+    }
+  }
+
+  //lay chi tiet bai dang voi ten va avatar user
+  Future<PostDetailsModel> getDetailsPost(String postId) async {
+    try {
+      final response = await supabase
+          .from('tbl_post')
+          .select('''*,tbl_user.user_id(user_name, avatar)''')
+          .eq('id', postId)
+          .single();
+      return PostDetailsModel.fromJson(response);
+    } catch (e) {
+      throw Exception('lay chi tiet bai dang that bai${e.toString()}');
     }
   }
 }

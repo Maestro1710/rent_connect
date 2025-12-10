@@ -82,7 +82,7 @@ class ForYou extends ConsumerWidget {
           );
         },
         error: (error, _)=> Center(child: Text('Lỗi: $error'),),
-        loading: () => const CircularProgressIndicator(),
+        loading: () => Center(child: const CircularProgressIndicator()),
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:rent_connect/app_router.dart';
 import 'package:rent_connect/features/auth/views/add_post_screen.dart';
 import 'package:rent_connect/features/auth/views/bottom_nav_screen.dart';
 import 'package:rent_connect/features/auth/views/chat_screen.dart';
+import 'package:rent_connect/features/auth/views/details_post_screen.dart';
 import 'package:rent_connect/features/auth/views/login_screen.dart';
 import 'package:rent_connect/features/auth/views/manage_post_screen.dart';
 import 'package:rent_connect/features/auth/views/profile_screen.dart';
@@ -51,6 +52,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRouter.login,
         builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: AppRouter.detailsPost,
+        builder: (context, state) => const DetailsPostScreen(),
       ),
     ],
   );

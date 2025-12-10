@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:rent_connect/features/auth/model/post_details_model.dart';
 import 'package:rent_connect/features/auth/model/post_model.dart';
 import 'package:rent_connect/features/auth/repositories/post_repository.dart';
 
@@ -45,5 +46,10 @@ class PostService {
   Future<List<PostModel>> getAllPostService() async {
     final posts = await repository.getAllPost();
     return posts;
+  }
+
+  Future<PostDetailsModel> getDetailsPostService(String postId) async {
+    final detailsPost = await repository.getDetailsPost(postId);
+    return detailsPost;
   }
 }
