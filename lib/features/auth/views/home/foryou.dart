@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rent_connect/app_router.dart';
 import 'package:rent_connect/core/providers/post_provider.dart';
 
 class ForYou extends ConsumerWidget {
@@ -26,7 +28,11 @@ class ForYou extends ConsumerWidget {
                 final post = posts[index];
                 return GestureDetector(
                   onTap: () {
-                    //xem chi tiet psot
+                    print("ID: ${post.postId}");
+                    context.pushNamed(
+                      AppRouter.detailsPost,
+                      queryParameters: {'postId': post.postId},
+                    );
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -52,24 +58,31 @@ class ForYou extends ConsumerWidget {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        Padding(padding: EdgeInsets.all(8),
-                          child:Column(
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(post.title, maxLines: 2, overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
+                              Text(
+                                post.title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
                               ),
-                              ),
-                              const SizedBox(height: 6,),
-                              Text('${post.price.toStringAsFixed(0)??0} VNĐ/tháng',
-                              style: const TextStyle(color: Colors.grey,
-                              fontWeight: FontWeight.w600),
+                              const SizedBox(height: 6),
+                              Text(
+                                '${post.price.toStringAsFixed(0) ?? 0} VNĐ/tháng',
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -81,7 +94,7 @@ class ForYou extends ConsumerWidget {
             },
           );
         },
-        error: (error, _)=> Center(child: Text('Lỗi: $error'),),
+        error: (error, _) => Center(child: Text('Lỗi: $error')),
         loading: () => Center(child: const CircularProgressIndicator()),
       ),
     );

@@ -55,7 +55,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRouter.detailsPost,
-        builder: (context, state) => const DetailsPostScreen(),
+        name: AppRouter.detailsPost,
+        builder: (context, state) {
+          final postId = state.uri.queryParameters['postId']!;
+          return DetailsPostScreen(postId: postId);
+        },
       ),
     ],
   );

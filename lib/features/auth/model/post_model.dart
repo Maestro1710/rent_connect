@@ -23,6 +23,7 @@ class PostModel {
 
   factory PostModel.fromJson(Map<String, dynamic> post) {
     return PostModel(
+      postId: post['id'].toString(),
       userId: post['user_id'] as String? ?? 'null',
       title: post['title'] as String? ?? 'null',
       description: post['description'] as String? ?? 'null',
@@ -38,6 +39,7 @@ class PostModel {
   }
   Map<String, dynamic> toJson() {
     return {
+      'id': postId,
       'user_id': userId,
       'title': title,
       'description': description,

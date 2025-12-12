@@ -4,9 +4,10 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rent_connect/features/auth/model/user_model.dart';
 
+import '../../../constants.dart';
 import '../services/shared_preference.dart';
 
-const defaultAvatarUrl = 'https://oryespgaoshjvihfmpyc.supabase.co/storage/v1/object/public/avatar/avatar/avatar-anh-meo-cute.jpg';
+
 
 class HomeController extends AsyncNotifier<UserModel?> {
   @override

@@ -28,7 +28,7 @@ class PostDetailsModel {
 
   factory PostDetailsModel.fromJson(Map<String, dynamic> json) {
     return PostDetailsModel(
-      postId: json['post_id'],
+      postId: json['id'].toString(),
       userId: json['user_id'],
       title: json['title'],
       description: json['description'],
@@ -41,8 +41,8 @@ class PostDetailsModel {
       city: json['city'],
       image: List<String>.from(json['image'] ?? []),
 
-      userName: json['users']?['fullname'],
-      userAvatar: json['users']?['avatar_url'],
+      userName: json['user']['user_name'],
+      userAvatar: json['user']['avatar'],
     );
   }
 }

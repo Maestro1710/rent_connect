@@ -75,11 +75,23 @@ class PostRepository {
   //lay chi tiet bai dang voi ten va avatar user
   Future<PostDetailsModel> getDetailsPost(String postId) async {
     try {
+      print("ID: ${postId}" );
+      final id = int.tryParse(postId.trim());
+      if (id == null) {
+        throw Exception('postId không hợp lệ: $postId');
+      }
       final response = await supabase
           .from('tbl_post')
-          .select('''*,tbl_user.user_id(user_name, avatar)''')
-          .eq('id', postId)
+          .select('''
+          *,
+          user:user_id(
+            user_name, 
+            avatar
+          )
+          ''')
+          .eq('id', id)
           .single();
+      print(PostDetailsModel.fromJson(response).userName);
       return PostDetailsModel.fromJson(response);
     } catch (e) {
       throw Exception('lay chi tiet bai dang that bai${e.toString()}');
