@@ -52,4 +52,9 @@ class PostService {
     final detailsPost = await repository.getDetailsPost(postId);
     return detailsPost;
   }
+
+  Future<List<PostModel>> getUserPostService(String userId) async {
+    final userPost = await repository.getUserPost(userId);
+    return userPost;
+  }
 }

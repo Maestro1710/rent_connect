@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rent_connect/core/providers/supabase_provider.dart';
+import 'package:rent_connect/features/auth/controller/manage_post_controller.dart';
 import 'package:rent_connect/features/auth/controller/post_controller.dart';
 import 'package:rent_connect/features/auth/controller/post_details_controller.dart';
 import 'package:rent_connect/features/auth/controller/post_list__controller.dart';
@@ -23,11 +24,15 @@ final postControllerProvider = StateNotifierProvider<PostController,PostState>((
   final service = ref.watch(postServiceProvider);
   return PostController(service);
 });
-final postListProvider =
+final postListControllerProvider =
 AsyncNotifierProvider<PostListController, List<PostModel>>(
   PostListController.new,
 );
-
 final postDetailsControllerProvider = AsyncNotifierProvider<PostDetailsController, PostDetailsModel> (
     () => PostDetailsController()
 );
+//ManagePostProviderController
+final managePostProviderController = AsyncNotifierProvider<ManagePostController,List<PostModel>> (
+  ManagePostController.new,
+);
+

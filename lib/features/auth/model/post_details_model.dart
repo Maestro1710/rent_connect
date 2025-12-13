@@ -8,6 +8,7 @@ class PostDetailsModel {
 
   final String? userName;
   final String? userAvatar;
+  final String? phoneNumber;
 
   PostDetailsModel({
     this.postId,
@@ -24,6 +25,7 @@ class PostDetailsModel {
     required this.image,
     this.userName,
     this.userAvatar,
+    this.phoneNumber,
   });
 
   factory PostDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -43,6 +45,7 @@ class PostDetailsModel {
 
       userName: json['user']['user_name'],
       userAvatar: json['user']['avatar'],
+      phoneNumber: json['user']['phone_number'],
     );
   }
 }

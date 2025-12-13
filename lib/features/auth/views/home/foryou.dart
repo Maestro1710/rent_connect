@@ -9,7 +9,7 @@ class ForYou extends ConsumerWidget {
   const ForYou({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final postList = ref.watch(postListProvider);
+    final postList = ref.watch(postListControllerProvider);
     return Scaffold(
       body: postList.when(
         data: (posts) {
@@ -90,7 +90,7 @@ class ForYou extends ConsumerWidget {
               },
             ),
             onRefresh: () async {
-              await ref.read(postListProvider.notifier).refresh();
+              await ref.read(postListControllerProvider.notifier).refresh();
             },
           );
         },

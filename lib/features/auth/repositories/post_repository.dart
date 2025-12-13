@@ -75,7 +75,7 @@ class PostRepository {
   //lay chi tiet bai dang voi ten va avatar user
   Future<PostDetailsModel> getDetailsPost(String postId) async {
     try {
-      print("ID: ${postId}" );
+      print("ID: ${postId}");
       final id = int.tryParse(postId.trim());
       if (id == null) {
         throw Exception('postId không hợp lệ: $postId');
@@ -86,7 +86,8 @@ class PostRepository {
           *,
           user:user_id(
             user_name, 
-            avatar
+            avatar,
+            phone_number
           )
           ''')
           .eq('id', id)
@@ -95,6 +96,25 @@ class PostRepository {
       return PostDetailsModel.fromJson(response);
     } catch (e) {
       throw Exception('lay chi tiet bai dang that bai${e.toString()}');
+    }
+  }
+
+  //lay post theo id nguoi dang
+  Future<List<PostModel>> getUserPost(String userId) async {
+    try {
+      //print("ID: ${postId}" );
+
+      final response = await supabase
+          .from('tbl_post')
+          .select()
+          .eq('user_id', userId)
+          .order('created_at', ascending: false);
+      List<PostModel> posts = (response as List)
+          .map((e) => PostModel.fromJson(e))
+          .toList();
+      return posts;
+    } catch (e) {
+      throw Exception('lay danh sach bai dang quan ly tin that bai${e.toString()}');
     }
   }
 }
