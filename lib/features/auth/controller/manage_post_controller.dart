@@ -3,23 +3,29 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rent_connect/core/providers/post_provider.dart';
 import 'package:rent_connect/features/auth/model/post_model.dart';
+import 'package:rent_connect/features/auth/services/shared_preference.dart';
 
 class ManagePostController extends AsyncNotifier<List<PostModel>> {
   @override
-  FutureOr<List<PostModel>> build() {
-    // TODO: implement build
-    throw UnimplementedError();
+  Future<List<PostModel>> build() async {
+    final service = ref.read(postServiceProvider);
+    final user = await SharedPreferenceHelper.getUser();
+    if (user == null) {
+      throw Exception('User chua dang nhap');
+      }
+    return await service.getUserPostService(user.userId);
   }
 
-  Future<void> loadUserPost (String userId) async {
-    final service = ref.read(postServiceProvider);
+  Future<void> loadUserPost () async {
     state = const AsyncLoading();
-    try {
-      final data = await service.getUserPostService(userId);
-      state = AsyncData(data);
-    }catch (e) {
-      state = AsyncError(e, StackTrace.current);
-    }
+    state = await AsyncValue.guard(()async {
+      final service = ref.read(postServiceProvider);
+      final user = await SharedPreferenceHelper.getUser();
+      if(user == null) {
+        throw Exception('User chua dang nhap');
+      }
+      return await service.getUserPostService(user.userId);
+    });
   }
 
 }

@@ -59,24 +59,28 @@ class _DetailsPostScreenState extends ConsumerState<DetailsPostScreen> {
                         maxLines: 3,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 22,
                         ),
                       ),
                       const SizedBox(height: 10),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Icon(
                             Icons.location_on_outlined,
-                            color: Colors.black54,
+                            color: Colors.black,
                             size: 20,
                           ),
-                          Text(
-                            post.address,
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontWeight: FontWeight.w600,
+                          Expanded(
+                            child: Text(
+                              post.address,
+                              style: TextStyle(
+                                color: Colors.black,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              maxLines: 2,
                             ),
-                            maxLines: 2,
                           ),
                         ],
                       ),
@@ -86,13 +90,12 @@ class _DetailsPostScreenState extends ConsumerState<DetailsPostScreen> {
                           Icon(
                             Icons.location_city_outlined,
                             size: 20,
-                            color: Colors.black54,
+                            color: Colors.black,
                           ),
                           Text(
                             "${post.commune}, ${post.district}, ${post.city}",
                             style: TextStyle(
-                              color: Colors.black54,
-                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
                             ),
                           ),
                         ],
@@ -131,21 +134,23 @@ class _DetailsPostScreenState extends ConsumerState<DetailsPostScreen> {
                             ListTile(
                               leading: Icon(
                                 Icons.aspect_ratio_outlined,
-                                size: 30,
-                                color: Colors.black54,
+                                size: 25,
+                                color: Colors.black,
+
                               ),
                               title: Text(
                                 'Diện tích:',
                                 style: TextStyle(
-                                  color: Colors.black54,
+                                  color: Colors.black,
                                   fontSize: 15,
+
                                 ),
                               ),
                               trailing: Text(
                                 '${post.area.toString()}/m²',
                                 style: TextStyle(
                                   fontSize: 15,
-                                  fontWeight: FontWeight.w600,
+
                                 ),
                               ),
                               contentPadding: EdgeInsets.zero,
@@ -153,21 +158,22 @@ class _DetailsPostScreenState extends ConsumerState<DetailsPostScreen> {
                             ListTile(
                               leading: Icon(
                                 Icons.payments_outlined,
-                                size: 30,
-                                color: Colors.black54,
+                                size: 25,
+                                color: Colors.black,
+
                               ),
                               title: Text(
                                 'Giá thuê:',
                                 style: TextStyle(
-                                  color: Colors.black54,
+                                  color: Colors.black,
                                   fontSize: 15,
+
                                 ),
                               ),
                               trailing: Text(
                                 '${FormatCurrency(post.price)}/tháng',
                                 style: TextStyle(
                                   fontSize: 15,
-                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                               contentPadding: EdgeInsets.zero,
@@ -175,21 +181,21 @@ class _DetailsPostScreenState extends ConsumerState<DetailsPostScreen> {
                             ListTile(
                               leading: Icon(
                                 Icons.lock_outline,
-                                size: 30,
-                                color: Colors.black54,
+                                size: 25,
+                                color: Colors.black,
                               ),
                               title: Text(
                                 'Đặt cọc',
                                 style: TextStyle(
-                                  color: Colors.black54,
+                                  color: Colors.black,
                                   fontSize: 15,
+
                                 ),
                               ),
                               trailing: Text(
                                 FormatCurrency(post.deposit),
                                 style: TextStyle(
                                   fontSize: 15,
-                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                               contentPadding: EdgeInsets.zero,
@@ -231,8 +237,18 @@ class _DetailsPostScreenState extends ConsumerState<DetailsPostScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.comment_outlined, size: 50,color: Colors.grey,),
-                              Text('Bình luận', style: TextStyle(fontSize: 30, color: Colors.grey),),
+                              Icon(
+                                Icons.comment_outlined,
+                                size: 50,
+                                color: Colors.grey,
+                              ),
+                              Text(
+                                'Bình luận',
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  color: Colors.grey,
+                                ),
+                              ),
                             ],
                           ),
                         ),

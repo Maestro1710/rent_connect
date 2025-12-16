@@ -7,7 +7,7 @@ import 'package:rent_connect/features/auth/model/post_model.dart';
 class PostListController extends AsyncNotifier<List<PostModel>> {
   @override
   FutureOr<List<PostModel>> build() async {
-    final service = await ref.watch(postServiceProvider);
+    final service = ref.watch(postServiceProvider);
     return await service.getAllPostService();
 
   }
@@ -15,7 +15,7 @@ class PostListController extends AsyncNotifier<List<PostModel>> {
   Future<void> refresh() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final service = ref.watch(postServiceProvider);
+      final service = ref.read(postServiceProvider);
       final posts = await service.getAllPostService();
       return posts;
     });
