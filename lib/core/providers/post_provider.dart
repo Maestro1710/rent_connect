@@ -28,9 +28,13 @@ final postListControllerProvider =
 AsyncNotifierProvider<PostListController, List<PostModel>>(
   PostListController.new,
 );
-final postDetailsControllerProvider = AsyncNotifierProvider<PostDetailsController, PostDetailsModel> (
-    () => PostDetailsController()
-);
+  final postDetailsControllerProvider =
+  AsyncNotifierProvider.family<
+      PostDetailsController,
+      PostDetailsModel,
+      String>(
+    PostDetailsController.new,
+  );
 //ManagePostProviderController
 final managePostProviderController = AsyncNotifierProvider<ManagePostController,List<PostModel>> (
   ManagePostController.new,

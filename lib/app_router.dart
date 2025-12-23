@@ -8,6 +8,7 @@ class AppRouter {
   static const login = '/login';
   static const register = '/register';
   static const detailsPost = '/details_post';
+  static const manageDetailPost = '/manage_detail_post';
   //nhung screen yeu cau dang nhap
   static const protected = [chat, profile, addPost, managePost];
 }

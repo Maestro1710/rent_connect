@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rent_connect/constants.dart';
-import 'package:rent_connect/core/providers/post_provider.dart';
-import 'package:rent_connect/features/auth/controller/post_details_controller.dart';
-import 'package:rent_connect/utils/format_currency.dart';
 
-  class DetailsPostScreen extends ConsumerStatefulWidget {
-    final String postId;
-    const DetailsPostScreen({super.key, required this.postId});
-    @override
-    ConsumerState<ConsumerStatefulWidget> createState() {
-      return _DetailsPostScreenState();
-    }
-  }
+import '../../../../constants.dart';
+import '../../../../core/providers/post_provider.dart';
+import '../../../../utils/format_currency.dart';
 
-  class _DetailsPostScreenState extends ConsumerState<DetailsPostScreen> {
+class ManagePostDetailScreen extends ConsumerWidget {
+  final String postId;
+  const ManagePostDetailScreen({required this.postId, super.key});
   @override
-  Widget build(BuildContext context) {
-    final state = ref.watch(postDetailsControllerProvider(widget.postId));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(postDetailsControllerProvider(postId));
     return Scaffold(
       appBar: AppBar(),
       body: state.when(
@@ -251,6 +244,10 @@ import 'package:rent_connect/utils/format_currency.dart';
                     ],
                   ),
                 ),
+                Row(children: [
+                  ElevatedButton(onPressed: (){}, child: Text('Chỉnh sửa')),
+                  ElevatedButton(onPressed: (){}, child: Text('Xóa')),
+                ],)
               ],
             ),
           ),
@@ -260,4 +257,5 @@ import 'package:rent_connect/utils/format_currency.dart';
       ),
     );
   }
+
 }

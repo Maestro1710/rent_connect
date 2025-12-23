@@ -6,7 +6,7 @@ import 'package:rent_connect/core/providers/bottom_nav_provider.dart';
 import 'package:rent_connect/core/providers/user_provider.dart';
 import 'package:rent_connect/features/auth/views/chat_screen.dart';
 import 'package:rent_connect/features/auth/views/home/home_screen.dart';
-import 'package:rent_connect/features/auth/views/manage_post_screen.dart';
+import 'package:rent_connect/features/auth/views/manage_post/manage_post_screen.dart';
 import 'package:rent_connect/features/auth/views/profile_screen.dart';
 
 class BottomNavScreen extends ConsumerWidget {
