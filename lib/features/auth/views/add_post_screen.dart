@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -45,16 +44,15 @@ class _PostState extends ConsumerState<AddPostScreen> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final postState = ref.watch(postControllerProvider);
 
     void _addPost() {
       if (selectedImage.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Bạn phải chọn ít nhất 1 ảnh')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Bạn phải chọn ít nhất 1 ảnh')));
         return;
       }
       if (_formkey.currentState!.validate()) {
@@ -84,12 +82,10 @@ class _PostState extends ConsumerState<AddPostScreen> {
         );
         ref.read(postControllerProvider.notifier).reset();
       }
-      if(next.success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Đăng bài thành công'),
-          ),
-        );
+      if (next.success) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Đăng bài thành công')));
         ref.read(postControllerProvider.notifier).reset();
         context.go(AppRouter.home);
       }
@@ -110,38 +106,103 @@ class _PostState extends ConsumerState<AddPostScreen> {
                   child: Padding(
                     padding: EdgeInsets.all(16),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text('MÔ TẢ'),
                         ),
                         const SizedBox(height: 15),
-                        InkWell(
-                          onTap: () async {
-                            final result = await ref
-                                .watch(imagePickerServiceProvider)
-                                .pickImage();
-                            setState(() {
-                              selectedImage = result;
-                            });
-                          },
-                          child: Container(
-                            height: 100,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey, width: 1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(Icons.camera_alt_outlined),
-                                Text('CHỌN ẢNH'),
-                              ],
-                            ),
+                       Wrap(
+                         alignment: WrapAlignment.start,
+                         spacing: 8,
+                         runSpacing: 8,
+                         children: [InkWell(
+                              onTap: () async {
+                                final result = await ref
+                                    .watch(imagePickerServiceProvider)
+                                    .pickImage();
+                                setState(() {
+                                  if(result.isNotEmpty) {
+                                    selectedImage.addAll(result);
+                                  }
+                                });
+                              },
+                              child: selectedImage.isEmpty ?
+                              Container(
+                                height: 100,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey, width: 1),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.camera_alt_outlined),
+                                    Text('CHỌN ẢNH'),
+                                  ],
+                                ),
+                              ): Container(
+                                width: 100,
+                                height:100,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Icon(
+                                  Icons.add,
+                                  size: 40,
+                                  color: Colors.grey,
+                                ),
+                              )
+
                           ),
-                        ),
+
+                        if (selectedImage.isNotEmpty) ...[
+                              ...List.generate(selectedImage.length, (index) {
+                                return Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.file(
+                                        selectedImage[index],
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 4,
+                                      right: 4,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedImage.removeAt(index);
+                                          });
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(4),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.black54,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: const Icon(
+                                            Icons.close,
+                                            size: 16,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }),
+
+                        ],]
+          ),
                         const SizedBox(height: 15),
                         InputWidget(
                           controller: titleController,
@@ -267,7 +328,7 @@ class _PostState extends ConsumerState<AddPostScreen> {
                         ),
                         const SizedBox(height: 15),
                         ElevatedButton(
-                          onPressed: postState.isLoading? null : _addPost,
+                          onPressed: postState.isLoading ? null : _addPost,
 
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
@@ -279,7 +340,9 @@ class _PostState extends ConsumerState<AddPostScreen> {
                               bottom: 15,
                             ),
                           ),
-                          child: postState.isLoading ? CircularProgressIndicator(): const Text('Đăng tin'),
+                          child: postState.isLoading
+                              ? CircularProgressIndicator()
+                              : const Text('Đăng tin'),
                         ),
                       ],
                     ),
