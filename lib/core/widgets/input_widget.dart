@@ -8,7 +8,7 @@ class InputWidget extends StatelessWidget {
   final Icon? icon;
   final int maxLine;
 
-  InputWidget({
+  const InputWidget({
     required this.controller,
     required this.label,
     this.validator,

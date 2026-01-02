@@ -1,6 +1,7 @@
 //tao state rieng cho postcontroller (StateNotifier)
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rent_connect/features/auth/services/post_service.dart';
 import 'package:rent_connect/features/auth/services/shared_preference.dart';
@@ -19,8 +20,6 @@ class PostState {
       error: error,
     );
   }
-
-
 }
 
 class PostController extends StateNotifier<PostState> {
@@ -32,7 +31,7 @@ class PostController extends StateNotifier<PostState> {
   }
 
   Future<void> createPost({
-     String? userId,
+    String? userId,
     required String title,
     required String description,
     required double area,
@@ -47,7 +46,7 @@ class PostController extends StateNotifier<PostState> {
     try {
       state = state.copyWith(isLoading: true);
       final user = await SharedPreferenceHelper.getUser();
-      if(user == null) {
+      if (user == null) {
         throw Exception('chua dang nhap');
       }
       await service.uploadPostService(
@@ -66,6 +65,42 @@ class PostController extends StateNotifier<PostState> {
       state = state.copyWith(isLoading: false, success: true);
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
+    }
+  }
+
+  Future<void> updatePost({
+    required String postId,
+    required String title,
+    required String description,
+    required double area,
+    required double deposit,
+    required double price,
+    required String address,
+    required String commune,
+    required String district,
+    required String city,
+    required List<File> newImages,
+    required List<String> oldImages,
+  }) async {
+    try {
+      state = state.copyWith(isLoading: true);
+      await service.updatePostService(
+        postId: postId,
+        title: title,
+        description: description,
+        area: area,
+        deposit: deposit,
+        price: price,
+        address: address,
+        commune: commune,
+        district: district,
+        city: city,
+        newImages: newImages,
+        oldImages: oldImages,
+      );
+      state = state.copyWith(isLoading: false, success: true);
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 }

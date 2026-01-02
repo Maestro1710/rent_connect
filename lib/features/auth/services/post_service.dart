@@ -43,6 +43,41 @@ class PostService {
     );
   }
 
+  Future<void> updatePostService({
+    required String postId,
+    required String title,
+    required String description,
+    required double area,
+    required double deposit,
+    required double price,
+    required String address,
+    required String commune,
+    required String district,
+    required String city,
+    required List<File> newImages,
+    required List<String> oldImages,
+  }) async {
+    List<String> imgUrls = [];
+    for (final img in newImages) {
+      final url = await repository.uploadImage(img);
+      imgUrls.add(url);
+    }
+    imgUrls.addAll(oldImages);
+    await repository.updatePost(
+      postId: postId,
+      title: title,
+      description: description,
+      area: area,
+      deposit: deposit,
+      price: price,
+      address: address,
+      commune: commune,
+      district: district,
+      city: city,
+      image: imgUrls,
+    );
+  }
+
   Future<List<PostModel>> getAllPostService() async {
     final posts = await repository.getAllPost();
     return posts;

@@ -24,6 +24,10 @@ class PostRepository {
       throw Exception('upload anh that bai: ${e.toString()}');
     }
   }
+  Future<void> deleteImage(String url) async {
+    final path = Uri.parse(url).pathSegments.last;
+    await supabase.storage.from('post_images').remove([path]);
+  }
 
   Future<void> createPost({
     required String userId,
@@ -114,7 +118,45 @@ class PostRepository {
           .toList();
       return posts;
     } catch (e) {
-      throw Exception('lay danh sach bai dang quan ly tin that bai${e.toString()}');
+      throw Exception(
+        'lay danh sach bai dang quan ly tin that bai${e.toString()}',
+      );
+    }
+  }
+
+  //update post
+  Future<void> updatePost({
+    required String postId,
+    required String title,
+    required String description,
+    required double area,
+    required double deposit,
+    required double price,
+    required String address,
+    required String commune,
+    required String district,
+    required String city,
+    required List<String> image,
+  }) async {
+    try {
+      await supabase
+          .from('tbl_post')
+          .update({
+            'title': title,
+            'description': description,
+            'area': area,
+            'deposit': deposit,
+            'price': price,
+            'address': address,
+            'commune': commune,
+            'district': district,
+            'city': city,
+            'image': image,
+          })
+          .eq('id', postId);
+      ;
+    } catch (e) {
+      throw Exception('update that bai: ${e.toString()} ');
     }
   }
 }
