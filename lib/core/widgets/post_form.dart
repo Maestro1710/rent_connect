@@ -68,7 +68,9 @@ class _PostFormState extends ConsumerState<PostForm> {
       districtController.text = p.district;
       cityController.text = p.city;
       addressController.text = p.address;
-      ref.read(postImageControllerProvider.notifier).setOldImage(p.image);
+      WidgetsBinding.instance.addPostFrameCallback((_){
+        ref.read(postImageControllerProvider.notifier).setOldImage(p.image);
+      });
     }
   }
 
@@ -172,11 +174,11 @@ class _PostFormState extends ConsumerState<PostForm> {
                         right: 4,
                         child: GestureDetector(
                           onTap: () {
-                            setState(() {
+
                               ref
-                                  .watch(postImageControllerProvider.notifier)
+                                  .read(postImageControllerProvider.notifier)
                                   .removeAt(index);
-                            });
+
                           },
                           child: Container(
                             padding: const EdgeInsets.all(4),
@@ -315,35 +317,37 @@ class _PostFormState extends ConsumerState<PostForm> {
             ),
             const SizedBox(height: 15),
             widget.post == null
-                ? ElevatedButton(
-                    onPressed: () {
-                      if (_formkey.currentState!.validate()) {
-                        widget.onSubmit(
-                          title: titleController.text.trim(),
-                          description: descriptionController.text.trim(),
-                          price: double.parse(priceController.text),
-                          area: double.parse(areaController.text),
-                          deposit: double.parse(depositController.text),
-                          commune: communeController.text.trim(),
-                          district: districtController.text.trim(),
-                          city: cityController.text.trim(),
-                          address: addressController.text.trim(),
-                        );
-                      }
-                    },
+                ? Center(
+                  child: ElevatedButton(
+                      onPressed: () {
+                        if (_formkey.currentState!.validate()) {
+                          widget.onSubmit(
+                            title: titleController.text.trim(),
+                            description: descriptionController.text.trim(),
+                            price: double.parse(priceController.text),
+                            area: double.parse(areaController.text),
+                            deposit: double.parse(depositController.text),
+                            commune: communeController.text.trim(),
+                            district: districtController.text.trim(),
+                            city: cityController.text.trim(),
+                            address: addressController.text.trim(),
+                          );
+                        }
+                      },
 
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                      padding: EdgeInsets.only(
-                        left: 30,
-                        right: 30,
-                        top: 15,
-                        bottom: 15,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.only(
+                          left: 30,
+                          right: 30,
+                          top: 15,
+                          bottom: 15,
+                        ),
                       ),
+                      child: const Text('Đăng tin'),
                     ),
-                    child: const Text('Đăng tin'),
-                  )
+                )
                 : Row(
                     children: [
                       ElevatedButton(

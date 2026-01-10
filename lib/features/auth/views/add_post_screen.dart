@@ -19,29 +19,10 @@ class AddPostScreen extends ConsumerStatefulWidget {
 }
 
 class _PostState extends ConsumerState<AddPostScreen> {
-  final _formkey = GlobalKey<FormState>();
   //text controller
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final priceController = TextEditingController();
-  final areaController = TextEditingController();
-  final depositController = TextEditingController();
-  final communeController = TextEditingController();
-  final districtController = TextEditingController();
-  final cityController = TextEditingController();
-  final addressController = TextEditingController();
 
   @override
   void dispose() {
-    titleController.dispose();
-    descriptionController.dispose();
-    priceController.dispose();
-    areaController.dispose();
-    depositController.dispose();
-    communeController.dispose();
-    districtController.dispose();
-    cityController.dispose();
-    addressController.dispose();
     super.dispose();
   }
 
@@ -50,28 +31,28 @@ class _PostState extends ConsumerState<AddPostScreen> {
     final images = ref.watch(postImageControllerProvider.notifier);
     final postState = ref.watch(postControllerProvider);
 
-    void addPost() {
-      if (images.newImages.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Bạn phải chọn ít nhất 1 ảnh')),
-        );
-        return;
-      }
-      ref
-          .watch(postControllerProvider.notifier)
-          .createPost(
-            title: titleController.text.trim(),
-            description: descriptionController.text.trim(),
-            area: double.tryParse(areaController.text.trim()) ?? 0.0,
-            deposit: double.tryParse(depositController.text.trim()) ?? 0.0,
-            price: double.tryParse(priceController.text.trim()) ?? 0.0,
-            address: addressController.text.trim(),
-            commune: communeController.text.trim(),
-            district: districtController.text.trim(),
-            city: cityController.text.trim(),
-            image: images.newImages,
-          );
-    }
+    // void addPost() {
+    //   if (images.newImages.isEmpty) {
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       const SnackBar(content: Text('Bạn phải chọn ít nhất 1 ảnh')),
+    //     );
+    //     return;
+    //   }
+    //   ref
+    //       .watch(postControllerProvider.notifier)
+    //       .createPost(
+    //         title: titleController.text.trim(),
+    //         description: descriptionController.text.trim(),
+    //         area: double.tryParse(areaController.text.trim()) ?? 0.0,
+    //         deposit: double.tryParse(depositController.text.trim()) ?? 0.0,
+    //         price: double.tryParse(priceController.text.trim()) ?? 0.0,
+    //         address: addressController.text.trim(),
+    //         commune: communeController.text.trim(),
+    //         district: districtController.text.trim(),
+    //         city: cityController.text.trim(),
+    //         image: images.newImages,
+    //       );
+    // }
 
     ref.listen(postControllerProvider, (previous, next) {
       if (next.error != null) {
@@ -119,7 +100,7 @@ class _PostState extends ConsumerState<AddPostScreen> {
                 return;
               }
 
-              ref
+                ref
                   .read(postControllerProvider.notifier)
                   .createPost(
                     title: title,

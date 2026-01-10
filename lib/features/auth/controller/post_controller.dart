@@ -81,6 +81,7 @@ class PostController extends StateNotifier<PostState> {
     required String city,
     required List<File> newImages,
     required List<String> oldImages,
+    required List<String> removedImages,
   }) async {
     try {
       state = state.copyWith(isLoading: true);
@@ -96,7 +97,7 @@ class PostController extends StateNotifier<PostState> {
         district: district,
         city: city,
         newImages: newImages,
-        oldImages: oldImages,
+        oldImages: oldImages, removedImages: removedImages,
       );
       state = state.copyWith(isLoading: false, success: true);
     } catch (e) {

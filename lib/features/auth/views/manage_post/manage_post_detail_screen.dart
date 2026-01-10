@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rent_connect/app_router.dart';
 
 import '../../../../constants.dart';
 import '../../../../core/providers/post_provider.dart';
@@ -13,10 +15,13 @@ class ManagePostDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postDetailsControllerProvider(postId));
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.amberAccent,
+      ),
       body: state.when(
         data: (post) => SafeArea(
           child: SingleChildScrollView(
+            padding: EdgeInsets.only(bottom: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -244,9 +249,36 @@ class ManagePostDetailScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-                Row(children: [
-                  ElevatedButton(onPressed: (){}, child: Text('Chỉnh sửa')),
-                  ElevatedButton(onPressed: (){}, child: Text('Xóa')),
+                const SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                  SizedBox(
+                    width: 120,
+                    height: 50,
+                    child: ElevatedButton(onPressed: (){
+                      context.pushNamed(
+                        AppRouter.updatePost,
+                        pathParameters: {'id': ?post.postId},
+
+                      );
+                    },style:
+                      ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent,
+                        foregroundColor: Colors.white
+                      ), child: const Text('Chỉnh sửa'),),
+                  ),
+                  SizedBox(
+                    height: 50,
+                    width: 120,
+                    child: ElevatedButton(onPressed: (){},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.redAccent,
+                            foregroundColor: Colors.white,
+                        ),
+
+                        child: Text('Xóa')),
+                  ),
                 ],)
               ],
             ),

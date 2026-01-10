@@ -24,6 +24,7 @@ class PostRepository {
       throw Exception('upload anh that bai: ${e.toString()}');
     }
   }
+
   Future<void> deleteImage(String url) async {
     final path = Uri.parse(url).pathSegments.last;
     await supabase.storage.from('post_images').remove([path]);
@@ -76,10 +77,23 @@ class PostRepository {
     }
   }
 
+  Future<PostModel> getPostById(String postId) async {
+    try {
+      final response = await supabase
+          .from('tbl_post')
+          .select()
+          .eq('id', int.parse(postId))
+          .single();
+      return PostModel.fromJson(response);
+    } catch (e) {
+      throw Exception('Lay post theo id that bai ${e.toString()}');
+    }
+  }
+
   //lay chi tiet bai dang voi ten va avatar user
   Future<PostDetailsModel> getDetailsPost(String postId) async {
     try {
-      print("ID: ${postId}");
+      //print("ID: ${postId}");
       final id = int.tryParse(postId.trim());
       if (id == null) {
         throw Exception('postId không hợp lệ: $postId');
@@ -96,7 +110,7 @@ class PostRepository {
           ''')
           .eq('id', id)
           .single();
-      print(PostDetailsModel.fromJson(response).userName);
+      //print(PostDetailsModel.fromJson(response).userName);
       return PostDetailsModel.fromJson(response);
     } catch (e) {
       throw Exception('lay chi tiet bai dang that bai${e.toString()}');
@@ -153,10 +167,52 @@ class PostRepository {
             'city': city,
             'image': image,
           })
-          .eq('id', postId);
+          .eq('id', int.parse(postId));
       ;
     } catch (e) {
       throw Exception('update that bai: ${e.toString()} ');
+    }
+  }
+
+  //xoa anh tren spabase
+  Future<void> deleteImageByUrl(String imageUrl) async {
+    try {
+      final uri = Uri.parse(imageUrl);
+
+      // Tách path sau "/object/public/"
+      final segments = uri.path.split('/object/public/');
+      if (segments.length < 2) {
+        throw Exception('Invalid Supabase image url');
+      }
+
+      final fullPath = segments[1];
+      // vd: posts/abc123.jpg
+
+      final bucket = fullPath.split('/').first;
+      final filePath = fullPath.substring(bucket.length + 1);
+
+      await supabase.storage.from('tbl_post').remove([filePath]);
+    } catch (e) {
+      throw Exception('Delete image failed: $e');
+    }
+  }
+
+  //search post
+  Future<List<PostModel>> searchPost(String keyword) async {
+    try {
+      final response = await supabase
+          .from('tbl_post')
+          .select()
+          .or(
+        'title.ilike.%$keyword%,'
+            'address.ilike.%$keyword%,'
+            'city.ilike.%$keyword%,'
+            'commune.ilike.%$keyword%,'
+            'district.ilike.%$keyword%',
+          ).order('created_at', ascending: false);
+      return response.map((e) => PostModel.fromJson(e)).toList();
+    } catch (e) {
+      throw Exception('searchPost that bai : ${e.toString()}');
     }
   }
 }

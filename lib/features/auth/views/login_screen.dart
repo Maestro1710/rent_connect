@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rent_connect/app_router.dart';
 import 'package:rent_connect/core/providers/auth_provider.dart';
+import 'package:rent_connect/core/providers/auth_state_provider.dart';
+import 'package:rent_connect/core/providers/home_provider.dart';
+import 'package:rent_connect/core/providers/post_provider.dart';
+import 'package:rent_connect/core/providers/user_provider.dart';
 import 'package:rent_connect/core/widgets/logo_widget.dart';
-import 'package:rent_connect/features/auth/views/bottom_nav_screen.dart';
-import 'package:rent_connect/features/auth/views/home/home_screen.dart';
 import 'package:rent_connect/utils/validators.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -13,9 +17,7 @@ class LoginScreen extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _LoginScreenState();
   }
-
 }
-
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formkey = GlobalKey<FormState>();
@@ -27,6 +29,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     _passWordController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     //theo doi state
@@ -50,7 +53,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           SnackBar(content: Text("Đăng ký thất bại: ${next.error}")),
         );
       } else if (next is AsyncData && next.value != null) {
-        final user = next.value!;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -58,13 +60,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           ),
         );
+        ref.invalidate(userProvider);
+        ref.invalidate(managePostProviderController);
+        ref.invalidate(homeProvier);
         Future.microtask(() {
-          if (user != null) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => BottomNavScreen()),
-            );
-          }
+            context.go(AppRouter.home);
         });
       }
     });

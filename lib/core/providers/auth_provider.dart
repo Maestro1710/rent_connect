@@ -21,5 +21,5 @@ final roleProvider = StateProvider<String>((ref) {
 final authControllerProvider =
 StateNotifierProvider<AuthController, AsyncValue<UserModel?>>((ref) {
   final service = ref.read(authServiceProvider);
-  return AuthController(service);
+  return AuthController(service, ref);
 });

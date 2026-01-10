@@ -4,10 +4,16 @@ import 'package:rent_connect/features/auth/repositories/auth_repository.dart';
 import 'package:rent_connect/features/auth/services/auth_services.dart';
 import 'package:rent_connect/features/auth/services/shared_preference.dart';
 
+import '../../../core/providers/bottom_nav_provider.dart';
+import '../../../core/providers/home_provider.dart';
+import '../../../core/providers/post_provider.dart';
+import '../../../core/providers/user_provider.dart';
+
 class AuthController extends StateNotifier<AsyncValue<UserModel?>> {
   final AuthServices _authService;
+  final Ref ref;
 
-  AuthController(this._authService) : super(const AsyncData(null));
+  AuthController(this._authService, this.ref) : super(const AsyncData(null));
 
   Future<void> signUp({
     required String email,
@@ -41,10 +47,33 @@ class AuthController extends StateNotifier<AsyncValue<UserModel?>> {
     state = const AsyncLoading();
     try {
       final user = await _authService.signInService(email, password);
+      ref.read(userProvider.notifier).saveUser(user);
       await SharedPreferenceHelper.saveUser(user);
       state = AsyncData(user);
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
+  Future<void> logOut() async {
+    state = AsyncLoading();
+    try {
+      await _authService.logOutService();
+      ref.read(userProvider.notifier).removeUser();
+      await SharedPreferenceHelper.removeUser();
+      state = AsyncData(null);
+      ref.read(bottomNavProvider.notifier).changeTab(0);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
+  }
+  Future<void> restoreSession() async {
+    state = const AsyncLoading();
+
+    final user = await SharedPreferenceHelper.getUser();
+    if (user != null) {
+      ref.read(userProvider.notifier).loadUser();
+    }
+    state = AsyncData(user);
+  }
+
 }

@@ -43,9 +43,9 @@ class PostDetailsModel {
       city: json['city'],
       image: List<String>.from(json['image'] ?? []),
 
-      userName: json['user']['user_name'],
-      userAvatar: json['user']['avatar'],
-      phoneNumber: json['user']['phone_number'],
+      userName: json['user']?['user_name'],
+      userAvatar: json['user']?['avatar'],
+      phoneNumber: json['user']?['phone_number'],
     );
   }
 }

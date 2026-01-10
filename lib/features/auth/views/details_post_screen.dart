@@ -19,8 +19,20 @@ import 'package:rent_connect/utils/format_currency.dart';
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(postDetailsControllerProvider(widget.postId));
+    ref.listen(postControllerProvider, (previous, next) {
+      if (previous?.success == false && next.success == true) {
+        //refresh state
+        ref.invalidate(postDetailsControllerProvider(widget.postId));
+        Navigator.pop(context);
+      }
+
+      if (next.error != null) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(next.error!)));
+      }
+    });
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: Colors.amberAccent,),
       body: state.when(
         data: (post) => SafeArea(
           child: SingleChildScrollView(
