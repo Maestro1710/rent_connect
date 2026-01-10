@@ -204,15 +204,25 @@ class PostRepository {
           .from('tbl_post')
           .select()
           .or(
-        'title.ilike.%$keyword%,'
+            'title.ilike.%$keyword%,'
             'address.ilike.%$keyword%,'
             'city.ilike.%$keyword%,'
             'commune.ilike.%$keyword%,'
             'district.ilike.%$keyword%',
-          ).order('created_at', ascending: false);
+          )
+          .order('created_at', ascending: false);
       return response.map((e) => PostModel.fromJson(e)).toList();
     } catch (e) {
       throw Exception('searchPost that bai : ${e.toString()}');
+    }
+  }
+
+  //delete post
+  Future<void> deletePost(String postId) async {
+    try {
+      await supabase.from('tbl_post').delete().eq('id', int.parse(postId));
+    } catch (e) {
+      throw Exception('deletePost that bai: ${e.toString()}');
     }
   }
 }

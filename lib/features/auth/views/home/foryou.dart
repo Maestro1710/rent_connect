@@ -65,7 +65,7 @@ class ForYou extends ConsumerWidget {
                             children: [
                               Text(
                                 post.title,
-                                maxLines: 2,
+                                maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,

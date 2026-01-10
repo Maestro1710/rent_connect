@@ -349,6 +349,7 @@ class _PostFormState extends ConsumerState<PostForm> {
                     ),
                 )
                 : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       ElevatedButton(
                         onPressed: () {
@@ -377,34 +378,6 @@ class _PostFormState extends ConsumerState<PostForm> {
                           ),
                         ),
                         child: Text('Cập nhật'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_formkey.currentState!.validate()) {
-                            widget.onSubmit(
-                              title: titleController.text.trim(),
-                              description: descriptionController.text.trim(),
-                              price: double.parse(priceController.text),
-                              area: double.parse(areaController.text),
-                              deposit: double.parse(depositController.text),
-                              commune: communeController.text.trim(),
-                              district: districtController.text.trim(),
-                              city: cityController.text.trim(),
-                              address: addressController.text.trim(),
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.redAccent,
-                          foregroundColor: Colors.white,
-                          padding: EdgeInsets.only(
-                            left: 30,
-                            right: 30,
-                            top: 15,
-                            bottom: 15,
-                          ),
-                        ),
-                        child: Text('Xóa tin'),
                       ),
                     ],
                   ),
