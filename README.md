@@ -1,16 +1,29 @@
-# rent_connect
+# Rent Connect
 
-A new Flutter project.
+## Mô tả
+Rent Connect là ứng dụng Flutter giúp người dùng tìm kiếm và quản lý các bất động sản cho thuê. Ứng dụng cung cấp các tính năng đăng tin, tìm kiếm và quản lý tin cho thuê, cũng như xác thực người dùng và quản lý hồ sơ cá nhân.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## Tính năng
+- **Xác thực người dùng:** Đăng ký, đăng nhập và đăng xuất bằng Supabase.
+- **Quản lý tin đăng:** Tạo, cập nhật, xóa và xem tin cho thuê.
+- **Tìm kiếm:** Tìm kiếm bất động sản theo từ khóa.
+- **Quản lý hồ sơ:** Xem và cập nhật thông tin người dùng.
+- **Chat:** Placeholder cho tính năng chat giữa người dùng.
+- **Trang chủ:** Gợi ý cá nhân hóa, bất động sản gần đây và tin mới.
+- **Lưu trữ cục bộ:** Lưu dữ liệu người dùng bằng SharedPreferences.
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Công nghệ sử dụng
+- **Frontend:** Flutter (Dart)
+- **Quản lý trạng thái:** Riverpod
+- **Backend:** Supabase (Authentication và Database)
+- **Lưu trữ cục bộ:** SharedPreferences
+- **Routing:** GoRouter
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## Cài đặt (Installation)
+
