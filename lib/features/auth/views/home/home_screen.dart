@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rent_connect/core/providers/auth_provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rent_connect/app_router.dart';
+import 'package:rent_connect/constants.dart';
 import 'package:rent_connect/core/providers/home_provider.dart';
+import 'package:rent_connect/features/auth/views/home/newpost.dart';
 
 import 'foryou.dart';
 import 'nearme.dart';
@@ -89,7 +92,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                   height: 45,
                                                   color: Colors.blue,
                                                   child: Image.network(
-                                                    user!.avatar!,
+                                                    user?.avatar ?? defaultAvatarUrl,
                                                     fit: BoxFit.cover,
                                                     errorBuilder:
                                                         (
@@ -111,9 +114,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    user != null
-                                                        ? "xin chao ${user.name}"
-                                                        : "xin chao khach",
+                                                         "xin chao ${user?.name??'Khách'}",
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -152,7 +153,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             const SizedBox(height: 40),
                             InkWell(
                               onTap: () {
-                                // dieu huong toi trang tim kiem
+                                context.push(AppRouter.search);
                               },
                               child: Container(
                                 height: 60,
@@ -207,7 +208,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         height: 45,
                                         width: 45,
                                         child: Image.network(
-                                          user!.avatar!,
+                                          user?.avatar??defaultAvatarUrl,
                                           fit: BoxFit.cover,
                                           errorBuilder:
                                               (context, error, stackTrace) {
@@ -271,7 +272,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ];
           },
-          body: TabBarView(children: [ForYou(), NearMe()]),
+          body: TabBarView(children: [ForYou(), NearMe(), NewPost()]),
         ),
       ),
     );

@@ -30,9 +30,18 @@ class AuthRepository {
   Future<AuthResponse> signUp(String email, String passWord) async {
     return await supabase.auth.signUp(email: email, password: passWord);
   }
+
   //Sign in
   Future<AuthResponse> signIn(String email, String passWord) async {
-    return await supabase.auth.signInWithPassword(email: email, password: passWord);
+    return await supabase.auth.signInWithPassword(
+      email: email,
+      password: passWord,
+    );
+  }
+
+  //logout
+  Future<void> logOut() async {
+    await supabase.auth.signOut();
   }
 
   // //Dang ky

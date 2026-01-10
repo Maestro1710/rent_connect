@@ -1,0 +1,1 @@
+const defaultAvatarUrl = 'https://oryespgaoshjvihfmpyc.supabase.co/storage/v1/object/public/avatar/avatar/avatar-anh-meo-cute.jpg';

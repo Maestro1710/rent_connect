@@ -6,7 +6,7 @@ import 'package:rent_connect/core/providers/bottom_nav_provider.dart';
 import 'package:rent_connect/core/providers/user_provider.dart';
 import 'package:rent_connect/features/auth/views/chat_screen.dart';
 import 'package:rent_connect/features/auth/views/home/home_screen.dart';
-import 'package:rent_connect/features/auth/views/manage_post_screen.dart';
+import 'package:rent_connect/features/auth/views/manage_post/manage_post_screen.dart';
 import 'package:rent_connect/features/auth/views/profile_screen.dart';
 
 class BottomNavScreen extends ConsumerWidget {
@@ -30,7 +30,7 @@ class BottomNavScreen extends ConsumerWidget {
         elevation: 5,
         shape: const CircleBorder(),
         onPressed: () {
-          if(user != null) {
+          if (user != null) {
             context.push(AppRouter.addPost);
           } else {
             context.push(AppRouter.login);
@@ -39,60 +39,67 @@ class BottomNavScreen extends ConsumerWidget {
         child: const Icon(Icons.add, size: 30),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 8,
-        height: 72,
-        child: SizedBox(height: 60, child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(color: Colors.grey.shade400, width: 1),
+          ),
+        ),
+        child: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 8,
+          height: 72,
+          child: SizedBox(
+            height: 60,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _navItem(
+                  icon: Icons.home,
+                  label: "Trang chủ",
+                  index: 0,
+                  currentIndex: currentIndex,
+                  ref: ref,
+                  user: user,
+                ),
 
-            _navItem(
-              icon: Icons.home,
-              label: "Trang chủ",
-              index: 0,
-              currentIndex: currentIndex,
-              ref: ref,
-              user: user,
+                _navItem(
+                  icon: Icons.mail,
+                  label: "Quản lý tin",
+                  index: 1,
+                  currentIndex: currentIndex,
+                  ref: ref,
+                  user: user,
+                ),
+
+                const SizedBox(width: 40), // chỗ trống cho FAB
+                // right
+                _navItem(
+                  icon: Icons.chat,
+                  label: "Chat",
+                  index: 3,
+                  currentIndex: currentIndex,
+                  ref: ref,
+                  user: user,
+                ),
+
+                _navItem(
+                  icon: Icons.person,
+                  label: "Tài khoản",
+                  index: 4,
+                  currentIndex: currentIndex,
+                  ref: ref,
+                  user: user,
+                ),
+              ],
             ),
-
-            _navItem(
-              icon: Icons.mail,
-              label: "Quản lý tin",
-              index: 1,
-              currentIndex: currentIndex,
-              ref: ref,
-              user: user,
-            ),
-
-            const SizedBox(width: 40), // chỗ trống cho FAB
-
-            // right
-            _navItem(
-              icon: Icons.chat,
-              label: "Chat",
-              index: 3,
-              currentIndex: currentIndex,
-              ref: ref,
-              user: user,
-            ),
-
-            _navItem(
-              icon: Icons.person,
-              label: "Tài khoản",
-              index: 4,
-              currentIndex: currentIndex,
-              ref: ref,
-              user: user,
-            ),
-          ],
-        )),
+          ),
+        ),
       ),
     );
   }
 
-
-//widget item cho bottom nav bar
+  //widget item cho bottom nav bar
 
   Widget _navItem({
     required IconData icon,
@@ -103,11 +110,11 @@ class BottomNavScreen extends ConsumerWidget {
     required user,
   }) {
     final selected = currentIndex == index;
-    final protectedIndex = [2,3,4,5];
+    final protectedIndex = [2, 3, 4, 5];
 
     return GestureDetector(
       onTap: () {
-        if(protectedIndex.contains(index) && user == null) {
+        if (protectedIndex.contains(index) && user == null) {
           ref.context.push(AppRouter.login);
           return;
         }
@@ -116,11 +123,7 @@ class BottomNavScreen extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            size: 24,
-            color: selected ? Colors.blue : Colors.grey,
-          ),
+          Icon(icon, size: 24, color: selected ? Colors.blue : Colors.grey),
           const SizedBox(height: 4),
           Text(
             label,
@@ -128,7 +131,7 @@ class BottomNavScreen extends ConsumerWidget {
               fontSize: 11,
               color: selected ? Colors.blue : Colors.grey,
             ),
-          )
+          ),
         ],
       ),
     );

@@ -1,27 +1,38 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rent_connect/core/providers/auth_state_provider.dart';
+import 'package:rent_connect/core/providers/router_refresh.dart';
 import 'package:rent_connect/core/providers/user_provider.dart';
 import 'package:rent_connect/app_router.dart';
 import 'package:rent_connect/features/auth/views/add_post_screen.dart';
 import 'package:rent_connect/features/auth/views/bottom_nav_screen.dart';
 import 'package:rent_connect/features/auth/views/chat_screen.dart';
+import 'package:rent_connect/features/auth/views/details_post_screen.dart';
 import 'package:rent_connect/features/auth/views/login_screen.dart';
-import 'package:rent_connect/features/auth/views/manage_post_screen.dart';
+import 'package:rent_connect/features/auth/views/manage_post/manage_post_detail_screen.dart';
+import 'package:rent_connect/features/auth/views/manage_post/manage_post_screen.dart';
 import 'package:rent_connect/features/auth/views/profile_screen.dart';
+import 'package:rent_connect/features/auth/views/search_screen.dart';
+import 'package:rent_connect/features/auth/views/update_post_sceen.dart';
+
+import '../../features/auth/model/user_model.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
-  final user = ref.watch(userProvider);
+  final refreshNotifier = GoRouterRefreshNotifier(ref);
   return GoRouter(
     initialLocation: AppRouter.home,
+    refreshListenable: refreshNotifier,
     redirect: (context, state) {
-      final loggedIn = user != null;
-      final loggingIn = state.uri.path == AppRouter.login;
+      final loggedIn = ref.watch(authStateProvider);
+      final path = state.uri.path;
 
-      if (!loggedIn && AppRouter.protected.contains(state.uri.path)) {
+      final isProtected = AppRouter.protected.any((p) => path.startsWith(p));
+
+      if (!loggedIn && isProtected) {
         return AppRouter.login;
       }
 
-      if (loggedIn && loggingIn) {
+      if (loggedIn && path == AppRouter.login) {
         return AppRouter.home;
       }
 
@@ -52,6 +63,33 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRouter.login,
         builder: (context, state) => const LoginScreen(),
       ),
+      GoRoute(
+        path: AppRouter.detailsPost,
+        name: AppRouter.detailsPost,
+        builder: (context, state) {
+          final postId = state.uri.queryParameters['postId']!;
+          return DetailsPostScreen(postId: postId);
+        },
+      ),
+      GoRoute(
+        path: '${AppRouter.manageDetailPost}/:id',
+        name: AppRouter.manageDetailPost,
+        builder: (context, state) {
+          final postId = state.pathParameters['id']!;
+          return ManagePostDetailScreen(postId: postId);
+        },
+      ),
+      GoRoute(
+        path: '${AppRouter.updatePost}/:id',
+        name: AppRouter.updatePost,
+        builder: (context, state) {
+          final postId = state.pathParameters['id'];
+          return UpdatePostScreen(postId: postId!);
+        },
+      ),
+      GoRoute(path: AppRouter.search,name: AppRouter.search,
+        builder: (context, state) => SearchScreen(),
+      )
     ],
   );
 });

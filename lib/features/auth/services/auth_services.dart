@@ -59,4 +59,11 @@ class AuthServices {
       throw Exception(" thất bại");
     }
   }
+  Future<void> logOutService () async {
+    try {
+      await _repository.logOut();
+    } catch (e) {
+      throw Exception('Dăng xuất thất bại: ${e.toString()}');
+    }
+  }
 }
