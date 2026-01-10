@@ -115,4 +115,8 @@ class PostService {
     final posts = await repository.searchPost(keyword.trim());
     return posts;
   }
+
+  Future<void> deletePostService (String postId) async {
+    await repository.deletePost(postId);
+  }
 }

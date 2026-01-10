@@ -110,10 +110,11 @@ class BottomNavScreen extends ConsumerWidget {
     required user,
   }) {
     final selected = currentIndex == index;
-    final protectedIndex = [2, 3, 4, 5];
+    final protectedIndex = [1,2, 3, 4, 5];
 
     return GestureDetector(
       onTap: () {
+        print(index);
         if (protectedIndex.contains(index) && user == null) {
           ref.context.push(AppRouter.login);
           return;

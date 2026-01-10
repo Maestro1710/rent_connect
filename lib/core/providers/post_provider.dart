@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rent_connect/core/providers/supabase_provider.dart';
+import 'package:rent_connect/features/auth/controller/delete_post_controller.dart';
 import 'package:rent_connect/features/auth/controller/manage_post_controller.dart';
 import 'package:rent_connect/features/auth/controller/post_controller.dart';
 import 'package:rent_connect/features/auth/controller/post_details_controller.dart';
@@ -54,7 +55,11 @@ final searchPostControllerProvider = StateNotifierProvider<SearchPostController,
   return SearchPostController(service);
 });
 
-
+//delete
+final deletePostControllerProvider = StateNotifierProvider<DeletePostController, AsyncValue<void>>((ref){
+  final service = ref.read(postServiceProvider);
+  return DeletePostController(service);
+});
 
 
 

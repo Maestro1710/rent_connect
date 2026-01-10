@@ -15,9 +15,7 @@ class ManagePostDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postDetailsControllerProvider(postId));
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.amberAccent,
-      ),
+      appBar: AppBar(backgroundColor: Colors.amberAccent),
       body: state.when(
         data: (post) => SafeArea(
           child: SingleChildScrollView(
@@ -84,9 +82,7 @@ class ManagePostDetailScreen extends ConsumerWidget {
                           ),
                           Text(
                             "${post.commune}, ${post.district}, ${post.city}",
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
+                            style: TextStyle(color: Colors.black),
                           ),
                         ],
                       ),
@@ -126,22 +122,17 @@ class ManagePostDetailScreen extends ConsumerWidget {
                                 Icons.aspect_ratio_outlined,
                                 size: 25,
                                 color: Colors.black,
-
                               ),
                               title: Text(
                                 'Diện tích:',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 15,
-
                                 ),
                               ),
                               trailing: Text(
                                 '${post.area.toString()}/m²',
-                                style: TextStyle(
-                                  fontSize: 15,
-
-                                ),
+                                style: TextStyle(fontSize: 15),
                               ),
                               contentPadding: EdgeInsets.zero,
                             ),
@@ -150,21 +141,17 @@ class ManagePostDetailScreen extends ConsumerWidget {
                                 Icons.payments_outlined,
                                 size: 25,
                                 color: Colors.black,
-
                               ),
                               title: Text(
                                 'Giá thuê:',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 15,
-
                                 ),
                               ),
                               trailing: Text(
                                 '${FormatCurrency(post.price)}/tháng',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
+                                style: TextStyle(fontSize: 15),
                               ),
                               contentPadding: EdgeInsets.zero,
                             ),
@@ -179,14 +166,11 @@ class ManagePostDetailScreen extends ConsumerWidget {
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 15,
-
                                 ),
                               ),
                               trailing: Text(
                                 FormatCurrency(post.deposit),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
+                                style: TextStyle(fontSize: 15),
                               ),
                               contentPadding: EdgeInsets.zero,
                             ),
@@ -249,37 +233,86 @@ class ManagePostDetailScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                  SizedBox(
-                    width: 120,
-                    height: 50,
-                    child: ElevatedButton(onPressed: (){
-                      context.pushNamed(
-                        AppRouter.updatePost,
-                        pathParameters: {'id': ?post.postId},
-
-                      );
-                    },style:
-                      ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueAccent,
-                        foregroundColor: Colors.white
-                      ), child: const Text('Chỉnh sửa'),),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    width: 120,
-                    child: ElevatedButton(onPressed: (){},
+                    SizedBox(
+                      width: 120,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          context.pushNamed(
+                            AppRouter.updatePost,
+                            pathParameters: {'id': ?post.postId},
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.redAccent,
-                            foregroundColor: Colors.white,
+                          backgroundColor: Colors.blueAccent,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: const Text('Chỉnh sửa'),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: 120,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          final confirm = await showDialog<bool>(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              title: Text('Xác nhận'),
+                              content: Text(
+                                'Bạn có chắc chắn muốn xóa bài viết này?',
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(
+                                    context,
+                                    false,
+                                  ),
+                                  child: Text('Hủy'),
+                                ),
+                                TextButton(
+                                  onPressed: () => Navigator.pop(
+                                    context,
+                                    true,
+                                  ),
+                                  child: Text('Xóa'),
+                                ),
+                              ],
+                            ),
+                          );
+
+                          if (confirm == true) {
+                            await ref
+                                .read(deletePostControllerProvider.notifier)
+                                .deletePost(post.postId.toString());
+                            ref.invalidate(managePostProviderController);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Đã xóa bài viết')),
+                            );
+
+
+                            if (context.mounted) {
+                              context.go(
+                                AppRouter.managePost,
+                              );
+                            }
+                          }
+                        },
+
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent,
+                          foregroundColor: Colors.white,
                         ),
 
-                        child: Text('Xóa')),
-                  ),
-                ],)
+                        child: Text('Xóa'),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -289,5 +322,4 @@ class ManagePostDetailScreen extends ConsumerWidget {
       ),
     );
   }
-
 }
